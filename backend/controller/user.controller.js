@@ -32,8 +32,6 @@ export const getSuggestions = async (req, res) => {
       "following"
     );
 
-    console.log(followingUsersByMe);
-
     const users = await UserModel.aggregate([
       {
         $match: {
@@ -48,7 +46,6 @@ export const getSuggestions = async (req, res) => {
     const suggestedUser = await users.filter(
       (user) => !followingUsersByMe.following.includes(user._id)
     );
-    console.log(suggestedUser);
 
     const slicedSuggested = suggestedUser.slice(0, 4);
 
@@ -70,6 +67,14 @@ export const followUnFollowUser = async (req, res) => {
   try {
     const userToModify = await UserModel.findById(id);
     const currUser = await UserModel.findById(req.user._id);
+
+    if (!userToModify || !currUser) {
+      return res.status(422).json({ msg: "user not found !!!" });
+    }
+
+    if (req.user._id.toString() === id.toString()) {
+      return res.status(422).json({ msg: "you can't follow your self !!!" });
+    }
 
     const isFollowing = currUser.following.includes(id);
 
