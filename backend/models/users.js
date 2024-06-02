@@ -41,6 +41,7 @@ const schema = mongoose.Schema({
     type: String,
     enum: ["ADMIN", "USER"],
   },
+  likedPost: [{ type: mongoose.Types.ObjectId, ref: "Post", default: [] }],
 });
 
 const model = mongoose.model("User", schema);

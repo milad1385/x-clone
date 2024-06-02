@@ -7,6 +7,7 @@ import path from "path";
 import connectToDb from "./utils/db.js";
 import authRoute from "./routes/auth.route.js";
 import usersRoute from "./routes/user.route.js";
+import postRoute from "./routes/post.route.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(
 
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
+app.use("/post", postRoute);
 
 app.listen(PORT, () => {
   console.log(`server is running in port ${PORT}`);
